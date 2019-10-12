@@ -1,9 +1,12 @@
 package io.mattmajor.demo.graphql.domain;
 
 public class Product {
-    private final Integer id;
-    private final String title;
-    private final Integer stock;
+    private Integer id;
+    private String title;
+    private Integer stock;
+
+    public Product() {
+    }
 
     public Product(final Integer id,
                    final String title,

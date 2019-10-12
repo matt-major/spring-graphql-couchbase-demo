@@ -40,8 +40,6 @@ public class GraphQLService {
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type(TypeRuntimeWiring.newTypeWiring("Query")
-                        .dataFetcher("products", productDataFetcher.getAll()))
-                .type(TypeRuntimeWiring.newTypeWiring("Query")
                         .dataFetcher("product", productDataFetcher.getById()))
                 .build();
     }
