@@ -4,7 +4,7 @@ import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.*;
-import io.mattmajor.demo.graphql.repository.ProductRepository;
+import io.mattmajor.demo.graphql.datafetchers.ProductDataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -16,15 +16,15 @@ import java.io.IOException;
 
 @Service
 public class GraphQLService {
-    private final ProductRepository productRepository;
+    private final ProductDataFetcher productDataFetcher;
     private final Resource resource;
 
     private GraphQL graphQL;
 
     @Autowired
     public GraphQLService(@Value("classpath:schema.graphqls") final Resource resource,
-                          final ProductRepository productRepository) {
-        this.productRepository = productRepository;
+                          final ProductDataFetcher productDataFetcher) {
+        this.productDataFetcher = productDataFetcher;
         this.resource = resource;
     }
 
@@ -40,9 +40,9 @@ public class GraphQLService {
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type(TypeRuntimeWiring.newTypeWiring("Query")
-                        .dataFetcher("products", productRepository.getAllProducts()))
+                        .dataFetcher("products", productDataFetcher.getAll()))
                 .type(TypeRuntimeWiring.newTypeWiring("Query")
-                        .dataFetcher("product", productRepository.getProductById()))
+                        .dataFetcher("product", productDataFetcher.getById()))
                 .build();
     }
 

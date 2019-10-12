@@ -1,4 +1,4 @@
-package io.mattmajor.demo.graphql.repository;
+package io.mattmajor.demo.graphql.datafetchers;
 
 import graphql.schema.DataFetcher;
 import io.mattmajor.demo.graphql.domain.Product;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Repository
-public class ProductRepository {
+public class ProductDataFetcher {
     private final List<Product> products = Arrays.asList(
             new Product(1001, "Test Product 1", 95),
             new Product(1002, "Test Product 2", 0),
@@ -18,11 +18,11 @@ public class ProductRepository {
             new Product(1006, "Test Product 6", 6)
     );
 
-    public DataFetcher getAllProducts() {
+    public DataFetcher getAll() {
         return dataFetchingEnvironment -> products;
     }
 
-    public DataFetcher getProductById() {
+    public DataFetcher getById() {
         return dataFetchingEnvironment -> {
             final Integer id = Integer.valueOf(dataFetchingEnvironment.getArgument("id"));
             return products.stream()
