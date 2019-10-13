@@ -15,6 +15,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
@@ -66,5 +67,10 @@ public class QueryResourceTest {
     private void thenItShouldReturnTheExpectedResponse() throws Exception {
         final JsonNode json = OBJECT_MAPPER.readTree(response.getBody());
         assertTrue(json.get("dataPresent").asBoolean());
+        assertTrue(json.get("extensions").isNull());
+
+        final JsonNode product = json.get("data").get("product");
+        assertEquals("A Test Product", product.get("title").asText());
+        assertEquals(5, product.get("stock").asInt());
     }
 }
